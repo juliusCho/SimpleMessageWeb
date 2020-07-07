@@ -20,12 +20,7 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <ul>
-            <li v-for="message in messages">
-                {{ message.text }} - {{ message.createdAt }}
-                <button type="button" @click="deleteMessage(message)"></button>
-            </li>
-        </ul>
+        <message-list :items="messages" @delete="deleteMessage"></message-list>
         <form @submit.prevent="addMessage">
             <label>
                 <textarea v-model="newMessage" placeholder="Leave a message"></textarea>
@@ -36,9 +31,14 @@
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script>
+    <script type="module">
+        import MessageList from './components/MessageList.js';
+
         let vm = new Vue({
             el: '#app',
+            components: {
+                MessageList
+            },
             data: {
                 messages: [],
                 newMessage: ''
@@ -54,9 +54,12 @@
                         return;
                     }
 
+                    let now = new Date();
+
                     this.messages.push({
+                        id: now.getTime(),
                         text: this.newMessage,
-                        createdAt: new Date()
+                        createdAt: now
                     });
 
                     this.newMessage = '';
