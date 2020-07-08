@@ -1,7 +1,9 @@
 import MessageListItem from './MessageListItem.js';
+import lifecycleLogger from '../mixins/lifecycle-logger.mixin.js';
 
 export default {
     name: 'MessageList',
+    mixins: [lifecycleLogger],
     components: {
         MessageListItem
     },

@@ -33,9 +33,15 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="module">
         import MessageList from './components/MessageList.js';
+        import './directives/focus.directive.js';
+        import './filters/datetime.filter.js';
+        import lifecycleLogger from './plugins/lifecycle-logger.plugin.js';
+
+        Vue.use(lifecycleLogger, {beforeMount: false});
 
         let vm = new Vue({
             el: '#app',
+            name: 'SampleMessageWeb',
             components: {
                 MessageList
             },
