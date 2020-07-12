@@ -1,11 +1,13 @@
 package app.messages;
 
-import app.etc.SecuredPropertySource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -22,7 +24,7 @@ public class MessageRepository {
         this.dataSource = dataSource;
     }
 
-    public Message saveMessage(Message message) {
+    public Message simpleJavaJDBCSaveMessage(Message message) {
         Connection con = DataSourceUtils.getConnection(dataSource);
         try {
             String insertSql = "INSERT INTO MESSAGES (`id`, `text`, `created_date`) VALUES (NULL, ?, ?)";
@@ -54,6 +56,33 @@ public class MessageRepository {
             DataSourceUtils.releaseConnection(con, dataSource);
         }
         return null;
+    }
+
+
+
+
+
+
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    public Message saveMessage(Message message) {
+        GeneratedKeyHolder holder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("text", message.getText());
+        params.addValue("createdDate", message.getCreatedDate());
+        String insertSQL = "INSERT INTO MESSAGES (`id`, `text`, `created_date`) VALUES (NULL, :text, :createdDate)";
+        try {
+            this.namedParameterJdbcTemplate.update(insertSQL, params, holder);
+        } catch (DataAccessException e) {
+            log.error("Failed to save message", e);
+            return null;
+        }
+        return new Message(holder.getKey().intValue(), message.getText(), message.getCreatedDate());
     }
 
 }

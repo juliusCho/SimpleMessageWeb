@@ -35,11 +35,6 @@ public class AppConfig {
 
     @Bean
     public DataSource dataSource() {
-        log.warn(sps.getDriverClassName());
-        log.warn(sps.getUrl());
-        log.warn(sps.getUsername());
-        log.warn(sps.getPassword());
-
         return DataSourceBuilder
                 .create()
                 .username(sps.getUsername())
