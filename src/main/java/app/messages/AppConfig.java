@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -24,6 +25,17 @@ public class AppConfig {
     private SecuredPropertySource sps;
 
     @Bean
+    public DataSource dataSource() {
+        return DataSourceBuilder
+                .create()
+                .username(sps.getUsername())
+                .password(sps.getPassword())
+                .url(sps.getUrl())
+                .driverClassName(sps.getDriverClassName())
+                .build();
+    }
+
+    @Bean
     public FilterRegistrationBean<AuditingFilter> auditingFilterFilterRegistrationBean() {
         FilterRegistrationBean<AuditingFilter> registrationBean = new FilterRegistrationBean<>();
         AuditingFilter filter = new AuditingFilter();
@@ -34,14 +46,11 @@ public class AppConfig {
     }
 
     @Bean
-    public DataSource dataSource() {
-        return DataSourceBuilder
-                .create()
-                .username(sps.getUsername())
-                .password(sps.getPassword())
-                .url(sps.getUrl())
-                .driverClassName(sps.getDriverClassName())
-                .build();
+    public LocalSessionFactoryBean sessionFactoryBean() {
+        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(this.dataSource());
+        sessionFactoryBean.setPackagesToScan("app.messages");
+        return sessionFactoryBean;
     }
 
 }

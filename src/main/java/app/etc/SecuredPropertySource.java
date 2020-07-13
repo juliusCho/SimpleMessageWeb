@@ -1,6 +1,8 @@
 package app.etc;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
@@ -8,7 +10,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @PropertySource("file:C:/dev/workspace/secured.properties")
 @Order(0)
-public class SecuredPropertySource {
+public class SecuredPropertySource implements ApplicationRunner {
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
@@ -39,4 +41,8 @@ public class SecuredPropertySource {
         return this.password;
     }
 
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        
+    }
 }
