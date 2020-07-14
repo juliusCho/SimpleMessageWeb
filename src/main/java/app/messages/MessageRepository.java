@@ -96,7 +96,8 @@ public class MessageRepository {
     }
 
     public Message saveMessage(Message message) {
-        Session session = sessionFactory.openSession();
+//        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         session.save(message);
         return message;
     }

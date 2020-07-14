@@ -10,13 +10,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
 
 @Configuration
 @ComponentScans({@ComponentScan("app.messages"), @ComponentScan("app.etc")})
+@EnableTransactionManagement
 public class AppConfig {
 
     private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
@@ -51,6 +54,13 @@ public class AppConfig {
         sessionFactoryBean.setDataSource(this.dataSource());
         sessionFactoryBean.setPackagesToScan("app.messages");
         return sessionFactoryBean;
+    }
+
+    @Bean
+    public HibernateTransactionManager transactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(this.sessionFactoryBean().getObject());
+        return transactionManager;
     }
 
 }
