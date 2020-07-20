@@ -36,4 +36,10 @@ public class MessageService {
         throw new UnsupportedOperationException("This method is not implemented yet");
     }
 
+    @SecurityCheck
+    @Transactional
+    public Message delete(Integer id) {
+        return repository.deleteMessage(new Message(id));
+    }
+
 }

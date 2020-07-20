@@ -78,7 +78,13 @@
                         });
                 },
                 deleteMessage(message) {
-                    this.messages.splice(this.messages.indexOf(message), 1);
+                    axios
+                        .delete('api/delete', {params: {
+                            id: message.id
+                        }})
+                        .then(response => {
+                            this.messages.splice(this.messages.indexOf(message), 1);
+                        });
                 }
             }
         });

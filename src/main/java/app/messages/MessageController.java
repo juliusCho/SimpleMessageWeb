@@ -41,4 +41,14 @@ public class MessageController {
         return ResponseEntity.ok(saved);
     }
 
+    @DeleteMapping("/api/delete")
+    @ResponseBody
+    public ResponseEntity<Message> deleteMessage(@RequestParam Integer id) {
+        Message message = service.delete(id);
+        if (message == null) {
+            return ResponseEntity.status(500).build();
+        }
+        return ResponseEntity.ok(message);
+    }
+
 }

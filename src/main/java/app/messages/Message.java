@@ -14,6 +14,11 @@ public class Message {
         createdDate = new Date();
     }
 
+    public Message(Integer id) {
+        this.id = id;
+        createdDate = new Date();
+    }
+
     public Message(Integer id, String text, Date createdDate) {
         this.id = id;
         this.text = text;

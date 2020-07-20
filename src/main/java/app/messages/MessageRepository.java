@@ -107,5 +107,10 @@ public class MessageRepository {
         return message;
     }
 
+    public Message deleteMessage(Message message) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(message);
+        return message;
+    }
 
 }
