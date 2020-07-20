@@ -4,16 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceUtils;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-import java.sql.*;
+import java.util.List;
 
 @Component
 public class MessageRepository {
@@ -65,27 +59,32 @@ public class MessageRepository {
 
 
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+//    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+//
+//    @Autowired
+//    public void setDataSource(DataSource dataSource) {
+//        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+//    }
+//
+//    public Message springJdbcSaveMessage(Message message) {
+//        GeneratedKeyHolder holder = new GeneratedKeyHolder();
+//        MapSqlParameterSource params = new MapSqlParameterSource();
+//        params.addValue("text", message.getText());
+//        params.addValue("createdDate", message.getCreatedDate());
+//        String insertSQL = "INSERT INTO MESSAGES (`id`, `text`, `created_date`) VALUES (NULL, :text, :createdDate)";
+//        try {
+//            this.namedParameterJdbcTemplate.update(insertSQL, params, holder);
+//        } catch (DataAccessException e) {
+//            log.error("Failed to save message", e);
+//            return null;
+//        }
+//        return new Message(holder.getKey().intValue(), message.getText(), message.getCreatedDate());
+//    }
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
 
-    public Message springJdbcSaveMessage(Message message) {
-        GeneratedKeyHolder holder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("text", message.getText());
-        params.addValue("createdDate", message.getCreatedDate());
-        String insertSQL = "INSERT INTO MESSAGES (`id`, `text`, `created_date`) VALUES (NULL, :text, :createdDate)";
-        try {
-            this.namedParameterJdbcTemplate.update(insertSQL, params, holder);
-        } catch (DataAccessException e) {
-            log.error("Failed to save message", e);
-            return null;
-        }
-        return new Message(holder.getKey().intValue(), message.getText(), message.getCreatedDate());
-    }
+
+
+
 
 
 
@@ -95,8 +94,14 @@ public class MessageRepository {
         this.sessionFactory = sessionFactory;
     }
 
+    public List<Message> getMessageList() {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from Message";
+        Query<Message> query = session.createQuery(hql, Message.class);
+        return query.list();
+    }
+
     public Message saveMessage(Message message) {
-//        Session session = sessionFactory.openSession();
         Session session = sessionFactory.getCurrentSession();
         session.save(message);
         return message;

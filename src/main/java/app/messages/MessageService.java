@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class MessageService {
 
@@ -16,13 +18,18 @@ public class MessageService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
+    public List<Message> getMessageList() {
+        return repository.getMessageList();
+    }
+
     @SecurityCheck
     @Transactional
     public Message save(String text) {
-        Message message = repository.saveMessage(new Message(text));
-        log.debug("New message[id={}] saved", message.getId());
-        this.updateStatistics();
-        return message;
+//        Message message = repository.saveMessage(new Message(text));
+//        log.debug("New message[id={}] saved", message.getId());
+//        this.updateStatistics();
+        return repository.saveMessage(new Message(text));
     }
 
     private void updateStatistics() {

@@ -31,11 +31,12 @@
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../axios.v0.19.2.min.js"></script>
     <script type="module">
-        import MessageList from './components/MessageList.js';
-        import './directives/focus.directive.js';
-        import './filters/datetime.filter.js';
-        import lifecycleLogger from './plugins/lifecycle-logger.plugin.js';
+        import MessageList from '../components/MessageList.js';
+        import '../directives/focus.directive.js';
+        import '../filters/datetime.filter.js';
+        import lifecycleLogger from '../plugins/lifecycle-logger.plugin.js';
 
         Vue.use(lifecycleLogger, {beforeMount: false});
 
@@ -54,21 +55,27 @@
                     return 10 <= this.messages.length || 50 < this.newMessage.length;
                 }
             },
+            created() {
+                axios
+                    .get('api/messages?_=' + new Date().getTime())
+                    .then(response => {
+                        this.messages = response.data;
+                    });
+            },
             methods: {
                 addMessage() {
                     if (!this.newMessage) {
                         return;
                     }
 
-                    let now = new Date();
-
-                    this.messages.push({
-                        id: now.getTime(),
-                        text: this.newMessage,
-                        createdAt: now
-                    });
-
-                    this.newMessage = '';
+                    axios
+                        .post('api/messages', {
+                            text: this.newMessage
+                        })
+                        .then(response => {
+                            this.messages.push(response.data);
+                            this.newMessage = '';
+                        });
                 },
                 deleteMessage(message) {
                     this.messages.splice(this.messages.indexOf(message), 1);
