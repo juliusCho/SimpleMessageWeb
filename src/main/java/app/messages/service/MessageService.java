@@ -1,5 +1,8 @@
-package app.messages;
+package app.messages.service;
 
+import app.messages.repository.MessageRepository;
+import app.messages.model.Message;
+import app.messages.security.SecurityCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -32,7 +35,7 @@ public class MessageService {
         return repository.saveMessage(new Message(text));
     }
 
-    private void updateStatistics() {
+    private void updatceStatistics() {
         throw new UnsupportedOperationException("This method is not implemented yet");
     }
 

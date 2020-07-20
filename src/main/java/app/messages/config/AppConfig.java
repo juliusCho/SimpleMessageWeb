@@ -1,6 +1,7 @@
-package app.messages;
+package app.messages.config;
 
 import app.etc.SecuredPropertySource;
+import app.messages.web.AuditingFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

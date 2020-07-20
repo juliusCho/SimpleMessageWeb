@@ -1,5 +1,7 @@
-package app.messages;
+package app.messages.web;
 
+import app.messages.model.Message;
+import app.messages.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
