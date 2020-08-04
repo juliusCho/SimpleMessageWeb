@@ -15,6 +15,7 @@ public class AuditingFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         long start = new Date().getTime();
+
         filterChain.doFilter(servletRequest, servletResponse);
         long elapsed = new Date().getTime() - start;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
