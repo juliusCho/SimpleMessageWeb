@@ -25,7 +25,6 @@ public class Message {
         this.createdDate = createdDate;
     }
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
