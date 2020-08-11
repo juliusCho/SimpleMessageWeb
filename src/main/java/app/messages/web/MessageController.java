@@ -29,7 +29,7 @@ public class MessageController {
 
     @GetMapping("/api/messages")
     @ResponseBody
-    public ResponseEntity<List<Message>> getMessageList() {
+    public ResponseEntity<List<Message>> getMessages() {
         return ResponseEntity.ok(service.getMessageList());
     }
 
