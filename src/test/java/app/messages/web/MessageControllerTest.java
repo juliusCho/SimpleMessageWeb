@@ -31,6 +31,7 @@ public class MessageControllerTest {
     @MockBean
     private MessageService service;
 
+
     @Test
     public void getMessages_existingMessages_shouldReturnJsonArray() throws Exception {
         Message firstMessage = new Message("First Message");
