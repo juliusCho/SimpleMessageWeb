@@ -37,6 +37,7 @@ public class MessageControllerTest {
         Message firstMessage = new Message("First Message");
         List<Message> allMessages = Arrays.asList(firstMessage);
 
+
         when(service.getMessageList()).thenReturn(allMessages);
 
         mvc.perform(get("/api/messages").contentType(MediaType.APPLICATION_JSON))
