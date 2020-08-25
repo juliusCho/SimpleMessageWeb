@@ -28,6 +28,7 @@ public class MessageRepository {
         return query.list();
     }
 
+
     public Message saveMessage(Message message) {
         Session session = sessionFactory.getCurrentSession();
         session.save(message);
