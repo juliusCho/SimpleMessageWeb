@@ -29,9 +29,6 @@ public class MessageService {
     @SecurityCheck
     @Transactional
     public Message save(String text) {
-//        Message message = repository.saveMessage(new Message(text));
-//        log.debug("New message[id={}] saved", message.getId());
-//        this.updateStatistics();
         return repository.saveMessage(new Message(text));
     }
 
