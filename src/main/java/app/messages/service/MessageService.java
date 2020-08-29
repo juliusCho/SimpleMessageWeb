@@ -26,6 +26,7 @@ public class MessageService {
         return repository.getMessageList();
     }
 
+
     @SecurityCheck
     @Transactional
     public Message save(String text) {
