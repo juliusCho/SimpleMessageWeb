@@ -43,5 +43,4 @@ public class MessageService {
         return repository.deleteMessage(new Message(id));
     }
 
-
 }
