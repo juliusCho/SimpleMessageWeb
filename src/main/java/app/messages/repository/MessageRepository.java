@@ -13,8 +13,6 @@ import java.util.List;
 @Component
 public class MessageRepository {
 
-    private final static Log log = LogFactory.getLog(MessageRepository.class);
-
     private SessionFactory sessionFactory;
 
     public MessageRepository(SessionFactory sessionFactory) {
