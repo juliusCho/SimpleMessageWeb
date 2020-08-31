@@ -20,7 +20,7 @@ public class SecurityChecker {
     @Around("checkMethodSecurity()")
     public Object checkSecurity(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Checking method security...");
-        // Security checking login to be here
+
         Object result = joinPoint.proceed();
         return result;
     }
