@@ -17,7 +17,6 @@ public class SecurityChecker {
     @Pointcut("@annotation(app.messages.security.SecurityCheck)")
     public void checkMethodSecurity() {}
 
-
     @Around("checkMethodSecurity()")
     public Object checkSecurity(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Checking method security...");
